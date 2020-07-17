@@ -3,7 +3,7 @@ from binary_search_tree import BSTNode
 start_time = time.time()
 duplicates = []  # Return the list of duplicates in this data structure
 
-# Original solution (74 ms)
+# Original solution: BST (74 ms)
 # with open('names_1.txt', 'r') as f:
 #     names_1 = f.read().split("\n")
 #     names_1_tree = BSTNode(names_1.pop(0))
@@ -16,12 +16,41 @@ duplicates = []  # Return the list of duplicates in this data structure
 #         if names_1_tree.contains(name):
 #             duplicates.append(name)
 
-#Stretch: BST-less solution (3 ms)
+# Fastest solution: sets (3 ms)
+# with open('names_1.txt', 'r') as f:
+#     names_1 = set(f.read().split("\n"))
+# with open('names_2.txt', 'r') as f:
+#     names_2 = set(f.read().split("\n"))
+# duplicates = names_1 & names_2
+
+# List-only solution using built-in methods: (680 ms)
+# with open('names_1.txt', 'r') as f:
+#     names_1 = f.read().split("\n")
+# with open('names_2.txt', 'r') as f:
+#     names_2 = f.read().split("\n")
+#     duplicates = [n for n in names_2 if n in names_1]
+
+# Custom list-only solution: (340 ms)
+def midpoint_search(needle, haystack):
+    if len(haystack) < 2:
+        return False
+    mid = len(haystack)//2
+    if haystack[mid] < needle:
+        return midpoint_search(needle, haystack[mid:])
+    elif haystack[mid] > needle:
+        return midpoint_search(needle, haystack[:mid])
+    else:
+        return True
+
 with open('names_1.txt', 'r') as f:
-    names_1 = set(f.read().split("\n"))
+    names_1 = f.read().split("\n")
+    names_1.sort()
 with open('names_2.txt', 'r') as f:
-    names_2 = set(f.read().split("\n"))
-duplicates = names_1 & names_2
+    names_2 = f.read().split("\n")
+    duplicates = [n for n in names_2 if midpoint_search(n, names_1)]
+
+
+
 
 end_time = time.time()
 print(f"{len(duplicates)} duplicates:\n\n{', '.join(duplicates)}\n\n")
