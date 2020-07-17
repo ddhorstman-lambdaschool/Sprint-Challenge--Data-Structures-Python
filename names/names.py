@@ -3,6 +3,9 @@ from binary_search_tree import BSTNode
 start_time = time.time()
 duplicates = []  # Return the list of duplicates in this data structure
 
+# Starter code has a complexity of O(n) * O(n).
+# If the lists have the same length, that becomes O(n^2)
+
 # Original solution: BST (74 ms)
 # with open('names_1.txt', 'r') as f:
 #     names_1 = f.read().split("\n")
